@@ -1,0 +1,127 @@
+{% extends 'base.htm' %}
+
+
+{% block content %}
+
+
+
+{% load cart %}
+{% load custom_filter %}
+
+<style>
+    .newmain:hover
+    {
+        background-color: rgb(241, 82, 82);
+        color: black;
+    }
+    
+    .jio1
+    {
+        background-color: thistle;
+    }
+
+    .card
+    {
+        background-color: rgb(233, 107, 85);
+    }
+
+    .card img
+    {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    @media screen and (max-width: 480px) {
+
+        .call1{
+            display: none;
+        }
+      
+    }
+  
+    
+   
+</style>
+
+
+
+<div class="container-fluid mt-3">
+<div class="row">
+
+    <!-- Filter -->
+    <div class="col-lg-2 mx-auto">
+        <div class="list-group">
+            <a href="/" class="list-group-item list-group-item-action jio1">All Products</a>
+
+         
+
+            {% for category in categories %}
+            
+            <a href="/?category={{category.id}}" class="list-group-item list-group-item-action newmain">{{category.name}}</a> 
+            
+            {% endfor %}
+        </div>
+    </div>
+            <div class="col-lg-1  call1" style="position: absolute; left: 17%;">
+            <p class="p-0 nice1" style="margin-top: 73%; "> {{mencloth}} </p> 
+            <p class="arround p-0 nice2" style="margin-top: 30%; ">{{womencloth}}</p>
+            <p class="arround p-0 nice3" style="margin-top: 29%; ">{{vegetables}}</p>
+        </div>
+        
+            
+        
+    
+    <!-- All Products -->
+    <div id="products"  class="col-lg-9 mx-auto mt-5">
+        <div class="row mx-auto">
+            {% for prods in products %}
+            
+            <div class="card mx-auto mb-3" style="width: 22rem;" id="{{prods.id}}">
+                <img src="{{prods.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title text-white">{{prods.name}}</h5>
+                  <p class="card-text">{{prods.price|currency}}</p>        
+                </div>
+
+                <div class="card-footer">
+                    {% if prods|is_in_cart:request.session.cart %}
+                    <div class="row   no-gutters">
+                        <form action="/#{{prods.id}}" method="POST" class="col-2">
+                            {% csrf_token %}
+                            <input hidden  name="product" type="text" value='{{prods.id}}'>
+                            <input hidden  name="remove" type="text" value='True'>
+
+                            <input type="submit" value="-" class=" btn btn-block btn-info">
+                        </form>
+                        <div class="text-center col">
+                            {{prods|cart_quantity:request.session.cart}} in Cart
+                        </div>
+                        <form action="/#{{prods.id}}" method="POST" class="col-2">
+                            {% csrf_token %}
+                            <input hidden  name="product" type="text" value='{{prods.id}}'>
+
+                            <input type="submit" value="+" class=" btn btn-block btn-info">
+                        </form>
+                    </div>
+                    {% else %}
+                    <form action="/#{{prods.id}}" method="POST" class="btn-block">
+                        {% csrf_token %}
+                        <input hidden  name="product" type="text" value='{{prods.id}}'>
+                        <input  type="submit" class="btn float-right btn-light border btn-sm mt-4"  value="Add To Cart"></input>
+                    </form>
+                    {% endif %}
+    
+                   
+                </div>
+
+               
+              </div>
+            
+            {% endfor %}
+            </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+    <!-- jQuery library -->

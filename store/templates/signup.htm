@@ -1,0 +1,57 @@
+{% extends 'base.htm' %}
+
+
+{% block content %}
+
+{% load static %}
+
+<div class="container">
+    <div class="p-4 m-4  col-lg-5 mx-auto" >
+      
+        
+      
+        <form action="/signup" class="border rounded pt-3" method="POST">
+          <img src="{% static 'images/download.png' %}"  style="margin-left: 100px; height: 20%;" alt="My image">
+          <img src="" alt="">
+            {% csrf_token %}
+            <h3 class="text-center mt-2 alert alert-dark border rounded text-info">Create An Account</h2>
+                {% if error %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    {{error}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+ </div>
+ {% endif %}
+            <!-- Email -->
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="example1">First Name</label>
+                    <input type="text" value="{{values.first_name}}" name="firstname" class="form-control form-control-sm" id="examp1" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="example2">Last Name</label>
+                    <input type="text" value="{{values.last_name}}" name="lastname" class="form-control form-control-sm" id="example2">
+                  </div>
+                  <div class="form-group">
+                    <label for="example1">Phone</label>
+                    <input type="text" value="{{values.phone}}" name="phone" class="form-control form-control-sm" id="examp2" required />
+                  </div>
+                <label for="example3">Email</label>
+                <input type="email" value="{{values.email}}" name="email" class="form-control form-control-sm" id="example3" aria-describedby="emailHelp" required />
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="example4">Password</label>
+                <input type="password" name="password" class="form-control form-control-sm" id="example4" required />
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              </div>
+              <button type="submit" class="btn btn-info">Create An Account</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
